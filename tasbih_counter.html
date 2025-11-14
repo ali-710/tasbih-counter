@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tasbih Counter</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #121212;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 32px;
+    }
+
+    #presets {
+      margin-bottom: 15px;
+    }
+
+    select {
+      padding: 12px;
+      font-size: 18px;
+      border-radius: 10px;
+      border: none;
+    }
+
+    #counter {
+      font-size: 80px;
+      margin: 25px 0;
+      font-weight: bold;
+    }
+
+    .btn {
+      padding: 18px 35px;
+      margin: 10px;
+      font-size: 22px;
+      border: none;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: transform 0.1s ease;
+    }
+
+    .btn:active {
+      transform: scale(0.9);
+    }
+
+    .increment {
+      background: #4caf50;
+      color: white;
+    }
+
+    .reset {
+      background: #d32f2f;
+      color: white;
+    }
+
+    .toggle {
+      background: #333;
+      color: #fff;
+    }
+
+    .light-mode {
+      background: #f3f3f3;
+      color: #000;
+    }
+
+  </style>
+</head>
+<body>
+  <h1>Tasbih Counter</h1>
+
+  <div id="presets">
+    <select id="presetSelect" onchange="applyPreset()">
+      <option value="0">Select preset</option>
+      <option value="33">33</option>
+      <option value="99">99</option>
+      <option value="100">100</option>
+    </select>
+  </div>
+
+  <div id="counter">0</div>
+
+  <button class="btn increment" onclick="increment()">Count</button>
+  <button class="btn reset" onclick="resetCounter()">Reset</button>
+  <button class="btn toggle" onclick="toggleTheme()">Theme</button>
+
+  <script>
+    let count = 0;
+    let presetLimit = 0;
+
+    function updateDisplay() {
+      document.getElementById("counter").innerText = count;
+    }
+
+    function increment() {
+      if (presetLimit && count >= presetLimit) return;
+
+      count++;
+      updateDisplay();
+
+      // tap vibration
+      if (navigator.vibrate) navigator.vibrate(40);
+    }
+
+    function resetCounter() {
+      count = 0;
+      updateDisplay();
+    }
+
+    function applyPreset() {
+      presetLimit = parseInt(document.getElementById("presetSelect").value);
+      resetCounter();
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle("light-mode");
+    }
+  </script>
+</body>
+</html>
